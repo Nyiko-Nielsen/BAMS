@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="icon" type="image/x-icon" href="../static/pics/Venture bliss-05.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Custom checkbox styles */
+    .checkbox-container {
+      display: block;
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 18px;
+      user-select: none;
+    }
+
+    /* Hide the default checkbox */
+    .checkbox-container input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    /* Style the custom checkbox */
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: #eee;
+      border-radius: 3px;
+    }
+
+    /* On hover, change background color of the custom checkbox */
+    .checkbox-container:hover input ~ .checkmark {
+      background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, change the background color of the custom checkbox */
+    .checkbox-container input:checked ~ .checkmark {
+      background-color: #2196F3;
+    }
+
+    /* Style the checkmark/indicator */
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    /* Show the checkmark when the checkbox is checked */
+    .checkbox-container input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    /* Position the checkmark inside the custom checkbox */
+    .checkbox-container .checkmark:after {
+      left: 7px;
+      top: 3px;
+      width: 6px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+  </style>
+</head>
+
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %} 
+      {% for category, message in messages %} 
+        {% if category == 'error' %}
+          <div class="alert alert-warning">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong> Danger!</strong>{{ message }}
+          </div>
+        {% else %}
+          <div class="alert alert-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Success!</strong>{{ message }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="form_wrapper">
+    <div class="form_container">
+      <div class="title_container">
+        <h2>Welcome to the DCS Registration Site</h2>
+        <img src="../static/pics/Venture bliss-05.jpg" height="auto" width="100%;">
+      </div>
+      <div class="row clearfix">
+        <div class="">
+          <form action="/login" method="POST">
+            <div class="input_field">
+              <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+              <input type="email" name="email" placeholder="Email" required />
+            </div>
+            <div class="input_field">
+              <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+              <input type="password" name="password" id="password" placeholder="Password" required />
+            </div>
+            <div class="input_field">
+              <label class="checkbox-container">
+                Show Password
+                <input type="checkbox" onclick="togglePasswordVisibility()" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <input class="button" type="submit" value="Login" />
+            <br>  
+            <div style="text-align:center;"><a href="{{ url_for('register') }}">Register</a></div>
+            <br>
+            <div style="text-align:center;"> <a href="{{ url_for('forgot') }}">Forgot password?</a></div> 
+          </form>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePasswordVisibility() {
+      var passwordField = document.getElementById("password");
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+      } else {
+        passwordField.type = "password";
+      }
+    }
+  </script>
+</body>
+</html>
